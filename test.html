@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="favicon-circle-transparent.ico" />
+    <title>Solve & Conquer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      /*   body {
+        padding: 10px;
+      }
+      .modal-dialog {
+        max-width: 90%;
+      }
+      input,
+      button {
+        font-size: 1.2rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }*/
+      body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1e90ff 0%, #00fa9a 100%);
+
+        /* background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%); */
+        /* background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%); */
+        /* background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); */
+        /* background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); */
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+
+        /* display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 10px; */
+      }
+      .container {
+        max-width: 600px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        border-radius: 10px;
+      }
+      h1 {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .vAlignMid {
+        vertical-align: middle;
+      }
+
+      .modal-dialog {
+        max-width: 600px;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .modal-backdrop {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .modal-dialog {
+          margin: 20px;
+        }
+        .container {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">
+        <img src="calculation-booster-icon.png" alt="" />
+        <span class="vAlignMid">Solve & Conquer</span>
+      </h1>
+
+      <!-- Main Menu Modal -->
+      <div
+        class="modal fade"
+        id="mainMenuModal"
+        tabindex="-1"
+        style="display: block"
+        aria-labelledby="mainMenuLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="mainMenuLabel">Main Menu</h5>
+            </div>
+            <div class="modal-body">
+              <p>What do you want to practice today?</p>
+              <button class="btn btn-primary w-100 mb-2" onclick="selectCategory(1)">Squares</button>
+              <button class="btn btn-primary w-100 mb-2" onclick="selectCategory(2)">Cubes</button>
+              <button class="btn btn-primary w-100 mb-2" onclick="selectCategory(3)">Tables</button>
+              <!-- <button class="btn btn-primary w-100 mb-2" onclick="selectCategory(4)">Mix</button> -->
+              <!-- <button class="btn btn-danger w-100" onclick="quitApp()">Quit</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Range Input Modal -->
+      <div
+        class="modal fade"
+        id="rangeModal"
+        tabindex="-1"
+        aria-labelledby="rangeModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="rangeModalLabel">Set Number Range</h5>
+            </div>
+            <div class="modal-body">
+              <form id="rangeForm">
+                <div class="mb-3">
+                  <label for="lowerLimit" class="form-label">Minimum Value:</label>
+                  <input type="number" class="form-control" id="lowerLimit" required />
+                </div>
+                <div class="mb-3">
+                  <label for="upperLimit" class="form-label">Maximum Value:</label>
+                  <input type="number" class="form-control" id="upperLimit" required />
+                </div>
+                <button class="btn btn-success w-100 mb-2" onclick="startQuiz()">Start The Quiz</button>
+                <button class="btn btn-primary w-100 mb-2" onclick="backToMainMenu(event)">Main Menu</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Modal -->
+      <div
+        class="modal fade"
+        id="questionModal"
+        tabindex="-1"
+        aria-labelledby="questionModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="questionModalLabel">Quiz Question</h5>
+            </div>
+            <div class="modal-body">
+              <p id="questionText"></p>
+              <input type="number" class="form-control mb-3" id="userAnswer" placeholder="Your Answer" />
+              <button class="btn btn-success w-100 mb-2" onclick="submitAnswer()">Submit Answer</button>
+              <button class="btn btn-secondary w-100" onclick="endQuiz()">End Quiz</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Modal -->
+      <div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="summaryModalLabel">Quiz Summary</h5>
+            </div>
+            <div class="modal-body" id="summaryContent"></div>
+            <div class="modal-footer">
+              <button class="btn btn-primary w-100" onclick="restartQuiz()">Restart</button>
+              <button class="btn btn-secondary w-100" onclick="quitApp()">Quit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bootstrap JS -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="main.js"></script>
+    </div>
+  </body>
+</html>

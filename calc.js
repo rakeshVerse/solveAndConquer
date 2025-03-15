@@ -20,7 +20,7 @@ class QuizSession {
   showSummary() {
     if (this.total === 0) return;
     alert(
-      `Session Summary:\n` +
+      `Session Summary:\n\n` +
         `Total Questions: ${this.total}\n` +
         `Correct Answers: ${this.correct}\n` +
         `Accuracy: ${((this.correct / this.total) * 100).toFixed(2)}%`
@@ -30,7 +30,7 @@ class QuizSession {
   showHistory() {
     if (this.total === 0) return;
 
-    let historyStr = "Question History:\n";
+    let historyStr = "Question History:\n\n";
     this.history.forEach((entry, index) => {
       historyStr +=
         `${index + 1}. ${entry.question}\n` +
@@ -78,14 +78,14 @@ function generateQuestion(cat, ranges) {
     case 1:
       // Squares
       num = generateRandomNumber(ranges.sqLow, ranges.sqHigh);
-      question = `What is the square of ${num}?`;
+      question = `${num}\u00B2 = ?`;
       correctAnswer = num * num;
       correctAnswerResp = `${num}\u00B2 = ${correctAnswer}`;
       break;
     case 2:
       // Cubes
       num = generateRandomNumber(ranges.cubeLow, ranges.cubeHigh);
-      question = `What is the cube of ${num}?`;
+      question = `${num}\u00B3 = ?`;
       correctAnswer = num * num * num;
       correctAnswerResp = `${num}\u00B3 = ${correctAnswer}`;
       break;
@@ -96,7 +96,7 @@ function generateQuestion(cat, ranges) {
       ///// e.g. Random number between 1 and 10 (inclusive) /////
       b = generateRandomNumber(stepMin, stepMax);
 
-      question = `What is ${a} x ${b}?`;
+      question = `${a} x ${b} = ?`;
       correctAnswer = a * b;
       correctAnswerResp = `${a} x ${b} = ${correctAnswer}`;
       break;
